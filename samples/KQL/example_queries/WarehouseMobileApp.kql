@@ -1,4 +1,4 @@
-// Telemetry from the SCM Warehouse mobile app
+database("AppCenterExport-Dynanics-365-for-Finance-and-Operations-Warehousing-Android")// Telemetry from the SCM Warehouse mobile app
 
 // Warehouse.LocationDirective.FindLocation
 customEvents 
@@ -9,6 +9,7 @@ customEvents
 , activityId = customDimensions.activityId
 , aadTenantId = customDimensions.aadTenantId
 , environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
 , eventStatus = customDimensions.eventStatus
 , itemId = customDimensions.itemId
 , itemRecordId = customDimensions.itemRecordId
@@ -21,6 +22,8 @@ customEvents
 , workCreationNumber = customDimensions.workCreationNumber
 , workOrderType = customDimensions.workOrderType
 , workType = customDimensions.workType
+, locationsEvaluated = customDimensions.locationsEvaluated
+| where eventStatus == 'stop'
 
 
 // Warehouse.WaveProcessing.PostWave
@@ -32,12 +35,14 @@ customEvents
 , activityId = customDimensions.activityId
 , aadTenantId = customDimensions.aadTenantId
 , environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
 , eventStatus = customDimensions.eventStatus
 , waveId = customDimensions.waveId
 , waveProcessingId = customDimensions.waveProcessingId
+| where eventStatus == 'stop'
 
 
-// Warehouse.MobileApp.NextPageRequest
+// Warehouse.NextPageRequest
 customEvents 
 | where timestamp >= ago(7d) // adjust as needed
 | where customDimensions.eventId == 'WHS000003'
@@ -46,16 +51,20 @@ customEvents
 , activityId = customDimensions.activityId
 , aadTenantId = customDimensions.aadTenantId
 , environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
 , eventStatus = customDimensions.eventStatus
 , mobileDeviceId = customDimensions.mobileDeviceId
 , mobileDeviceRequestActivityId = customDimensions.mobileDeviceRequestActivityId
+, step = customDimensions.step
+, mode = customDimensions.mode
 , clientCity = client_City
 , clientStateOrProvince = client_StateOrProvince
 , clientCountryOrRegion = client_CountryOrRegion
+| where eventStatus == 'stop'
 
 
-// Warehouse.MobileApp.ImageRequest
-customEvents 
+// Warehouse.ImageRequest
+customEvents
 | where timestamp >= ago(7d) // adjust as needed
 | where customDimensions.eventId == 'WHS000004'
 | project timestamp
@@ -63,39 +72,11 @@ customEvents
 , activityId = customDimensions.activityId
 , aadTenantId = customDimensions.aadTenantId
 , environmentId = customDimensions.environmentId
-, eventStatus = customDimensions.eventStatus // this can be "start" or "stop"
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus 
 , mobileDeviceRequestImageDetails = customDimensions.mobileDeviceRequestImageDetails
 , mobileDeviceRequestImageIsThumbnail = customDimensions.mobileDeviceRequestImageIsThumbnail
-
-// Warehouse.MobileApp.ImageRequest durations
-let _lookback = 7d; // adjust as needed
-let image_starts = 
-customEvents 
-| where timestamp >= ago(_lookback) 
-| where customDimensions.eventId == 'WHS000004'
-| where customDimensions.eventStatus == 'start'
-| project timestamp_start = timestamp
-, activityId = tostring(customDimensions.activityId)
-, aadTenantId = customDimensions.aadTenantId
-, environmentId = customDimensions.environmentId
-, mobileDeviceRequestImageDetails = customDimensions.mobileDeviceRequestImageDetails
-, mobileDeviceRequestImageIsThumbnail = customDimensions.mobileDeviceRequestImageIsThumbnail
-;
-let image_ends = 
-customEvents 
-| where timestamp >= ago(_lookback)
-| where customDimensions.eventId == 'WHS000004'
-| where customDimensions.eventStatus == 'stop'
-| project timestamp_end = timestamp
-, activityId = tostring(customDimensions.activityId)
-;
-image_starts
-| join kind=leftouter image_ends on $left.activityId == $right.activityId
-| extend duration_ms = datetime_diff('millisecond', timestamp_end, timestamp_start)
-| project-rename timestamp = timestamp_start
-| project-away activityId1, timestamp_end
-
-
+| where eventStatus == 'stop'
 
 
 // Warehouse.WorkCreation.Log
@@ -107,19 +88,22 @@ customEvents
 , activityId = customDimensions.activityId
 , aadTenantId = customDimensions.aadTenantId
 , environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
 , eventStatus = customDimensions.eventStatus
 , waveId = customDimensions.waveId
 , waveProcessingId = customDimensions.waveProcessingId
 , workCreationLogFailed = customDimensions.workCreationLogFailed // If == 1, then this indicates a failure
 , workCreationLogMessage = customDimensions.workCreationLogMessage
 , workCreationLogTransactionTime = customDimensions.workCreationLogTransactionTime
+| where eventStatus == 'stop'
 
 
 // Warehouse.MobileApp.ClientRoundTrip
 customEvents 
-| where timestamp >= ago(1d) // adjust as needed
+| where timestamp >= ago(7d) // adjust as needed
 | where customDimensions.eventId == 'WHS000006'
 | project timestamp
+, activityGraph = customDimensions.activityGraph
 , backendProcessingTime = customDimensions.backendProcessingTime
 , batteryLevel = customDimensions.batteryLevel
 , batterySession = customDimensions.batterySession
