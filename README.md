@@ -1,14 +1,35 @@
-# Project
+# What is telemetry?
+Microsoft Power Platform and Dynamics 365 products continuously emits telemetry about events that happen in the customer environment. 
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+# What can I use telemetry for?
+Telemetry can be useful for troubleshooting an issue or to determine how often a feature is used.
 
-As the maintainer of this project, please make a few updates:
+# Is there a Frequently Asked Questions (FAQ)?
+Please visit the [FAQ page](FAQ.md) for any questions on how to get started, pricing, privacy, and more.
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+# What resources can I find in this repository?
+This repository contains instructions for how you can obtain the telemetry and resources that help you get immediate value from the telemetry from the Dynamics 365 Supply Chain Management product.
+
+| Area of interest | Use it for  | Take me there (use CTRL+click to open in a new tab) |
+| ------ | ------ | ------ |
+| Alerts | If something happens in your environment that you need to take action on, make the system send you an alert. | [Alerting on telemetry](samples/Alerts) |
+| Excel | Want to make (refreshable) reports in Excel with data from Azure Application Insights? | [Using Excel with telemetry](samples/Excel) |
+| HTML | Want to construct a link that runs a KQL query and shows the result in the Azure Application Insights portal? | [Embedding telemetry links in your apps](samples/HTML) |
+| Kusto Query Language (KQL) | Want to query data in Azure Application Insights with KQL (similar to SQL)? | [Querying telemetry with KQL](samples/KQL) |
+| Power Automate | Want to query Azure Application Insights data in a Power Automate flow? | [Using telemetry with Power Automate](samples/PowerAutomate) |
+| Power BI | Want to query Azure Application Insights data in a Power BI report? | [Using telemetry with Power BI](samples/PowerBI) |
+| PowerShell | Want to query Azure Application Insights data in a Powershell script? | [Using telemetry with PowerShell](samples/Powershell) |
+| Troubleshooting | Want to make interactive troubleshooting guides with Jupyter notebooks? | [Using telemetry with Jupyter notebooks](samples/TroubleshootingGuides) |
+
+
+
+
+
+
+
+
+
+
 
 ## Contributing
 

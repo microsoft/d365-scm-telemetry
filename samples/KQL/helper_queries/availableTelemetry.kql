@@ -1,0 +1,8 @@
+customEvents 
+| where timestamp >= ago(7d)
+| project timestamp
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, eventId = tostring(customDimensions.eventId)
+| extend tenantId = strcat( aadTenantId, environmentId )
+| summarize EventCount=count() by tenantId, eventId, Day=bin(timestamp, 1d)

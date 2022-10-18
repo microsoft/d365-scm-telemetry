@@ -1,0 +1,9 @@
+// Warehouse.MobileApp sessions
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000003'
+| project timestamp
+, sessionId = tostring(customDimensions.activityId)
+, aadTenantId = tostring(customDimensions.aadTenantId)
+, environmentId = tostring(customDimensions.environmentId)
+| summarize sessionStarted=min(timestamp), sessionEnded=max(timestamp) by activityId, aadTenantId, environmentId
