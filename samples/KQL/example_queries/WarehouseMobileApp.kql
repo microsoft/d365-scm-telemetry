@@ -55,8 +55,8 @@ customEvents
 , eventStatus = customDimensions.eventStatus
 , mobileDeviceId = customDimensions.mobileDeviceId
 , mobileDeviceRequestActivityId = customDimensions.mobileDeviceRequestActivityId
-, step = customDimensions.step
-, mode = customDimensions.mode
+, step = customDimensions.workExecuteStep
+, mode = customDimensions.workExecuteMode
 , clientCity = client_City
 , clientStateOrProvince = client_StateOrProvince
 , clientCountryOrRegion = client_CountryOrRegion
