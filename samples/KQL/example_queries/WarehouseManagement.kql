@@ -1,0 +1,464 @@
+// Telemetry from the SCM Warehouse Management
+
+// Warehouse.LocationDirective.FindLocation (10.0.31)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000001'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, itemId = customDimensions.itemId
+, itemRecordId = customDimensions.itemRecordId
+, loadId = customDimensions.loadId
+, orderNumber = customDimensions.orderNumber
+, requestedInventoryQuantity = customDimensions.requestedInventoryQuantity
+, shipmentId = customDimensions.shipmentId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+, workCreationNumber = customDimensions.workCreationNumber
+, workOrderType = customDimensions.workOrderType
+, workType = customDimensions.workType
+, locationsEvaluated = customDimensions.locationsEvaluated
+| where eventStatus == 'stop'
+
+
+// Warehouse.WaveProcessing.PostWave (10.0.31)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000002'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+| where eventStatus == 'stop'
+
+
+// Warehouse.WorkCreation.Log (10.0.31)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000005'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+, workCreationLogFailed = customDimensions.workCreationLogFailed // If == 1, then this indicates a failure
+, workCreationLogMessage = customDimensions.workCreationLogMessage
+, workCreationLogTransactionTime = customDimensions.workCreationLogTransactionTime
+| where eventStatus == 'stop'
+
+
+// Warehouse.WaveProcessing.ShippingCreateWork (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000007'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+, workCreationNumber = customDimensions.workCreationNumber
+| where eventStatus == 'stop'
+
+
+// Warehouse.WaveProcessing.CreateLoads (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000008'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+| where eventStatus == 'stop'
+
+
+// Warehouse.WaveProcessing.ProcessWaveMethods (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000009'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveMethodsProcessed = customDimensions.waveMethodsProcessed
+, waveProcessingId = customDimensions.waveProcessingId
+| where eventStatus == 'stop'
+
+
+// Warehouse.WaveProcessing.ValidateWave (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000010'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, validateWaveSuccess = customDimensions.validateWaveSuccess
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+| where eventStatus == 'stop'
+
+
+// Warehouse.WaveProcessing.AllocateWave (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000011'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, releaseToWarehouseId = customDimensions.releaseToWarehouseId
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+| where eventStatus == 'stop'
+
+
+// Warehouse.WaveProcessing.Containerization (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000012'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+| where eventStatus == 'stop'
+
+
+// Warehouse.LoadPosting (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000013'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, loadId = customDimensions.loadId
+, loadPostMethodName = customDimensions.createShipments
+, orderNumber = customDimensions.orderNumber
+| where eventStatus == 'stop'
+
+
+// Warehouse.WaveDemandReplenishment (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000014'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+, waveStepCode = customDimensions.waveStepCode
+| where eventStatus == 'stop'
+
+
+// Warehouse.WaveProcessing.KanbanCreateWork (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000015'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+, workCompleted = customDimensions.workCompleted
+, worksCreated = customDimensions.worksCreated
+| where eventStatus == 'stop'
+
+
+// Warehouse.WaveProcessing.KanbanPickQuantity (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000016'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+| where eventStatus == 'stop'
+
+
+// Warehouse.WaveProcessing.ProductionCreateWork (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000017'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+, worksCreated = customDimensions.worksCreated
+| where eventStatus == 'stop'
+
+
+// Warehouse.WaveProcessing.ProductionPickQuantity (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000018'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+| where eventStatus == 'stop'
+
+
+// Warehouse.WaveProcessing.Sorting (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000019'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+| where eventStatus == 'stop'
+
+
+// Warehouse.WaveProcessing.WaveLabelPrinting (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000020'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+| where eventStatus == 'stop'
+
+
+// Warehouse.CreateLoadFromShipment (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000021'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, loadId = customDimensions.loadId
+, orderNumber = customDimensions.orderNumber
+, shipmentId = customDimensions.shipmentId
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+| where eventStatus == 'stop'
+
+
+// Warehouse.ProcessTemporaryWorkLine (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000022'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, itemId = customDimensions.itemId
+, loadId = customDimensions.loadId
+, orderNumber = customDimensions.orderNumber
+, shipmentId = customDimensions.shipmentId
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+, workId = customDimensions.workId
+, workOrderType = customDimensions.workOrderType
+, workTemplateCode = customDimensions.workTemplateCode
+, workType = customDimensions.workType
+| where eventStatus == 'stop'
+
+
+// Warehouse.CreateRemainingWorkLines (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000023'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, itemId = customDimensions.itemId
+, loadId = customDimensions.loadId
+, orderNumber = customDimensions.orderNumber
+, shipmentId = customDimensions.shipmentId
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+, workId = customDimensions.workId
+, workOrderType = customDimensions.workOrderType
+, workTemplateCode = customDimensions.workTemplateCode
+, workType = customDimensions.workType
+| where eventStatus == 'stop'
+
+
+// Warehouse.AllocateLoadLine (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000024'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, itemId = customDimensions.itemId
+, loadId = customDimensions.loadId
+, orderNumber = customDimensions.orderNumber
+, shipmentId = customDimensions.shipmentId
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+| where eventStatus == 'stop'
+
+
+// Warehouse.RunDemandReplenishment (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000025'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, replenishmentTemplateId = customDimensions.replenishmentTemplateId
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+, waveStepCode = customDimensions.waveStepCode
+| where eventStatus == 'stop'
+
+
+// Warehouse.ImmediateReplenishment (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000026'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, immediateReplenishmentQuantity = customDimensions.immediateReplenishmentQuantity
+, immediateReplenishmentTemplateId = customDimensions.immediateReplenishmentTemplateId
+, immediateReplenishmentUnitOfMeasure = customDimensions.immediateReplenishmentUnitOfMeasure
+, itemId = customDimensions.itemId
+, itemRecordId = customDimensions.itemRecordId
+, loadId = customDimensions.loadId
+, orderNumber = customDimensions.orderNumber
+, requestedInventoryQuantity = customDimensions.requestedInventoryQuantity
+, shipmentId = customDimensions.shipmentId
+, warehouseId = customDimensions.warehouseId
+, waveId = customDimensions.waveId
+, waveProcessingId = customDimensions.waveProcessingId
+, workCreationNumber = customDimensions.workCreationNumber
+, workOrderType = customDimensions.workOrderType
+, workType = customDimensions.workType
+| where eventStatus == 'stop'
+
+
+// Warehouse.WarehouseRelease.CreateShipments (10.0.32)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000027'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, activityId = customDimensions.activityId
+, aadTenantId = customDimensions.aadTenantId
+, environmentId = customDimensions.environmentId
+, elapsedMilliseconds = customDimensions.elapsedMilliseconds
+, eventStatus = customDimensions.eventStatus
+, loadId = customDimensions.loadId
+, loadPostMethodName = customDimensions.loadPostMethodName
+, orderNumber = customDimensions.orderNumber
+, shipmentsCreated = customDimensions.shipmentsCreated
+| where eventStatus == 'stop'
