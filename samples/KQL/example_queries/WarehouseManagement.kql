@@ -413,7 +413,7 @@ customEvents
 , warehouseId = customDimensions.warehouseId
 , waveId = customDimensions.waveId
 , waveProcessingId = customDimensions.waveProcessingId
-, replenishmentTemplateId = customDimensions.replenishmentTemplateId
+, waveStepCode = customDimensions.waveStepCode
 | where eventStatus == 'stop'
 
 
