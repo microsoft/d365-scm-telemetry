@@ -1,6 +1,7 @@
-database("AppCenterExport-Dynamics-365-for-Finance-and-Operations-Warehousing-Android")// Telemetry from the SCM Warehouse mobile app
+// Telemetry for the SCM Warehouse mobile app
+database("AppCenterExport-Dynamics-365-for-Finance-and-Operations-Warehousing-Android")
 
-// Warehouse.NextPageRequest
+// Warehouse.NextPageRequest (Supply Chain Management version 10.0.31)
 customEvents 
 | where timestamp >= ago(7d) // adjust as needed
 | where customDimensions.eventId == 'WHS000003'
@@ -21,7 +22,7 @@ customEvents
 | where eventStatus == 'stop'
 
 
-// Warehouse.ImageRequest
+// Warehouse.ImageRequest (Supply Chain Management version 10.0.31)
 customEvents
 | where timestamp >= ago(7d) // adjust as needed
 | where customDimensions.eventId == 'WHS000004'
@@ -37,7 +38,7 @@ customEvents
 | where eventStatus == 'stop'
 
 
-// Warehouse.MobileApp.ClientRoundTrip
+// Warehouse.MobileApp.ClientRoundTrip (Warehouse Management mobile app version 2.0.28)
 customEvents 
 | where timestamp >= ago(7d) // adjust as needed
 | where customDimensions.eventId == 'WHS000006'
