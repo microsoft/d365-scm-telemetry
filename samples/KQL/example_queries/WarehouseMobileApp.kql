@@ -56,3 +56,8 @@ customEvents
 , clientCity = client_City
 , clientStateOrProvince = client_StateOrProvince
 , clientCountryOrRegion = client_CountryOrRegion
+// Available from Warehouse Management mobile app version 2.1.12
+, networkConnectionProfiles = customDimensions.networkConnectionProfiles
+, networkAccess = customDimensions.networkAccess
+, wifiSignalStrength = customDimensions.wifiSignalStrength
+, lastKnowWMSLocation = customDimensions.lastKnowWMSLocation
