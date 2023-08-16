@@ -60,4 +60,32 @@ customEvents
 , networkConnectionProfiles = customDimensions.networkConnectionProfiles
 , networkAccess = customDimensions.networkAccess
 , wifiSignalStrength = customDimensions.wifiSignalStrength
-, lastKnowWMSLocation = customDimensions.lastKnowWMSLocation
+, lastKnownWMSLocation = customDimensions.lastKnownWMSLocation
+
+// Warehouse.MobileApp.FailedServerInvoke (Warehouse Management mobile app version 2.1.14)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000030'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, deviceId = customDimensions.deviceId
+, serverInvokeErrorMessage = customDimensions.ServerInvokeErrorMessage
+, requestNextPageTimeInMs = customDimensions.RequestNextPageTimeInMs
+, clientCity = client_City
+, clientStateOrProvince = client_StateOrProvince
+, clientCountryOrRegion = client_CountryOrRegion
+
+// Warehouse.MobileApp.ServiceInvokeException (Warehouse Management mobile app version 2.1.14)
+customEvents 
+| where timestamp >= ago(7d) // adjust as needed
+| where customDimensions.eventId == 'WHS000031'
+| project timestamp
+, activityGraph = customDimensions.activityGraph
+, deviceId = customDimensions.deviceId
+, serviceInvokeExceptionCategory = customDimensions.serviceInvokeExceptionCategory
+, numberOfRetries = customDimensions.numberOfRetries
+, serverInvokeErrorMessage = customDimensions.ServerInvokeErrorMessage
+, connectionType = customDimensions.connectionType
+, clientCity = client_City
+, clientStateOrProvince = client_StateOrProvince
+, clientCountryOrRegion = client_CountryOrRegion
