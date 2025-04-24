@@ -69,8 +69,8 @@ customEvents
 | project timestamp
 , activityGraph = customDimensions.activityGraph
 , deviceId = customDimensions.deviceId
-, serverInvokeErrorMessage = customDimensions.ServerInvokeErrorMessage
-, requestNextPageTimeInMs = customDimensions.RequestNextPageTimeInMs
+, serverInvokeErrorMessage = customDimensions.serverInvokeErrorMessage
+, requestNextPageTimeInMs = customDimensions.requestNextPageTimeInMilliseconds
 , clientCity = client_City
 , clientStateOrProvince = client_StateOrProvince
 , clientCountryOrRegion = client_CountryOrRegion
@@ -84,7 +84,7 @@ customEvents
 , deviceId = customDimensions.deviceId
 , serviceInvokeExceptionCategory = customDimensions.serviceInvokeExceptionCategory
 , numberOfRetries = customDimensions.numberOfRetries
-, serverInvokeErrorMessage = customDimensions.ServerInvokeErrorMessage
+, serverInvokeErrorMessage = customDimensions.serverInvokeErrorMessage
 , connectionType = customDimensions.connectionType
 , clientCity = client_City
 , clientStateOrProvince = client_StateOrProvince
