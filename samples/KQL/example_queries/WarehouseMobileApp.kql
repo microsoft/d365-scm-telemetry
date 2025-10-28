@@ -61,6 +61,9 @@ customEvents
 , networkAccess = customDimensions.networkAccess
 , wifiSignalStrength = customDimensions.wifiSignalStrength
 , lastKnownWMSLocation = customDimensions.lastKnownWMSLocation
+// Available from Warehouse Management mobile app version 2.1.19
+, lastKnownWarehouse = customDimensions.lastKnownWarehouse
+, lastKnownDataAreaId = customDimensions.lastKnownDataAreaId
 
 // Warehouse.MobileApp.FailedServerInvoke (Warehouse Management mobile app version 2.1.14)
 customEvents 
