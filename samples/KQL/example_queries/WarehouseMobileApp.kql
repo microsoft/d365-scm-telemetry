@@ -75,7 +75,7 @@ customEvents
 , idleTimeLastPage = customDimensions.idleTimeLastPage
 // Identifier of the worker's server session, recorded on every mobile app
 // event. Join on it to follow one session across app and server telemetry.
-, serverSessionId = customDimensions.serverSessionId
+, sessionId = customDimensions.sessionId
 
 // Warehouse.MobileApp.FailedServerInvoke (Warehouse Management mobile app version 2.1.14)
 customEvents 
@@ -111,17 +111,21 @@ customEvents
 // than per page or per request. A row is emitted when the server confirms the
 // work, and also when the worker gives up on it, so the data is not limited to
 // the flows that succeeded.
+// Every value is a string: Application Insights routes numeric event
+// properties to customMeasurements rather than customDimensions, so the
+// numbers below are emitted as text and need toint()/tolong() before
+// arithmetic.
 customEvents
 | where timestamp >= ago(7d) // adjust as needed
 | where customDimensions.eventId == 'WHS000032'
 | project timestamp
 , deviceId = customDimensions.deviceId
-, serverSessionId = customDimensions.serverSessionId
+, sessionId = customDimensions.sessionId
 // 'completed' when the server confirmed the work, otherwise 'abandoned'.
 , outcome = customDimensions.outcome
 // How the flow ended: 'success', 'cancelled', 'signedOut' or 'sessionLost'.
 , status = customDimensions.status
-, durationInMilliseconds = customDimensions.durationInMilliseconds
+, operationDurationMs = customDimensions.operationDurationMs
 // Requests. Sums travel with the averages because an average cannot be
 // re-aggregated: the mean of per-operation means is not the mean over
 // operations, so grouping needs the totals.
@@ -129,31 +133,37 @@ customEvents
 // Transport failures (time-out, 5xx), as opposed to errorMessageCount, which
 // counts errors that the server deliberately returned.
 , requestFailureCount = customDimensions.requestFailureCount
-, totalRequestDurationInMilliseconds = customDimensions.totalRequestDurationInMilliseconds
-, averageRequestDurationInMilliseconds = customDimensions.averageRequestDurationInMilliseconds
-// Worker actions
+// Also the operation's server wait: the app blocks while a page is in flight.
+, requestDurationTotalMs = customDimensions.requestDurationTotalMs
+, requestDurationAverageMs = customDimensions.requestDurationAverageMs
+// Worker actions. The four counters below partition buttonClickCount.
 , buttonClickCount = customDimensions.buttonClickCount
 , submitCount = customDimensions.submitCount
 , cancelCount = customDimensions.cancelCount
 , detourCount = customDimensions.detourCount
+// Menu entries and navigation, which are neither submit, cancel nor detour.
+// Menu-driven flows consist almost entirely of these.
+, otherButtonCount = customDimensions.otherButtonCount
 // Dialog boxes that the worker had to open to enter or edit a value. Split by
 // kind, because opening the calculator six times and opening the edit dialog
 // once describe very different sessions.
 , modalOpenCount = customDimensions.modalOpenCount
-, totalModalOpenDurationInMilliseconds = customDimensions.totalModalOpenDurationInMilliseconds
+, modalDurationMs = customDimensions.modalDurationMs
 , modalCalculatorCount = customDimensions.modalCalculatorCount
 , modalTextEditCount = customDimensions.modalTextEditCount
 , modalControlEditCount = customDimensions.modalControlEditCount
 , modalOtherCount = customDimensions.modalOtherCount
-// Pages. Fill time excludes waiting on the server, idle time and time on
-// app-local screens, so it reflects the time the worker spent on the page.
+// Pages. Fill time is the operation with the three buckets below taken out, so
+// it reflects the time the worker spent working on the page.
 , pageCount = customDimensions.pageCount
-, totalActiveFillDurationInMilliseconds = customDimensions.totalActiveFillDurationInMilliseconds
-, averageActiveFillDurationInMilliseconds = customDimensions.averageActiveFillDurationInMilliseconds
-// Where the rest of the elapsed time went
-, totalIdleDurationInMilliseconds = customDimensions.totalIdleDurationInMilliseconds
-, totalChromeDurationInMilliseconds = customDimensions.totalChromeDurationInMilliseconds
-, totalWaitDurationInMilliseconds = customDimensions.totalWaitDurationInMilliseconds
+, fillDurationTotalMs = customDimensions.fillDurationTotalMs
+, fillDurationAverageMs = customDimensions.fillDurationAverageMs
+// Where the rest of the elapsed time went. These and requestDurationTotalMs
+// reconcile against operationDurationMs.
+, idleDurationMs = customDimensions.idleDurationMs
+// Time on app-local screens (settings, about, diagnostics, connection), which
+// are not part of the operation.
+, offFormDurationMs = customDimensions.offFormDurationMs
 // Messages returned by the server during the flow
 , errorMessageCount = customDimensions.errorMessageCount
 , warningMessageCount = customDimensions.warningMessageCount
@@ -162,14 +172,14 @@ customEvents
 , scanKeyboardCount = customDimensions.scanKeyboardCount
 , scanBigBlockCount = customDimensions.scanBigBlockCount
 , scanCharByCharCount = customDimensions.scanCharByCharCount
-, intentProGloveCount = customDimensions.intentProGloveCount
-, intentZebraCount = customDimensions.intentZebraCount
+// Scans from an arm-held scanner, such as a ring scanner, which is a
+// materially different way of working from holding a scanner.
+, armHeldScanCount = customDimensions.armHeldScanCount
 , cameraOpenCount = customDimensions.cameraOpenCount
-, cameraOpenDurationInMilliseconds = customDimensions.cameraOpenDurationInMilliseconds
-// Which flow this was, and whether it ran inside a nested sub-operation
-, firstPagePattern = customDimensions.firstPagePattern
-, lastPagePattern = customDimensions.lastPagePattern
-, wasInDetourSession = customDimensions.wasInDetourSession
+, cameraDurationMs = customDimensions.cameraDurationMs
+// How many times the flow entered a nested sub-operation. Counted on entry, so
+// a detour spanning six requests counts once.
+, detourEnteredCount = customDimensions.detourEnteredCount
 , clientCity = client_City
 , clientStateOrProvince = client_StateOrProvince
 , clientCountryOrRegion = client_CountryOrRegion
