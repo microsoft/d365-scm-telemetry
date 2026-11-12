@@ -20,6 +20,7 @@ This repository contains instructions for how you can obtain the telemetry and r
 | Power BI | Want to query Azure Application Insights data in a Power BI report? | [Using telemetry with Power BI](samples/PowerBI) |
 | PowerShell | Want to query Azure Application Insights data in a Powershell script? | [Using telemetry with PowerShell](samples/Powershell) |
 | Troubleshooting | Want to make interactive troubleshooting guides with Jupyter notebooks? | [Using telemetry with Jupyter notebooks](samples/TroubleshootingGuides) |
+| Warehouse Mobile App | Want to monitor Wi-Fi, latency, failures, and scanning on your warehouse devices? | [Warehouse Mobile App telemetry guide](samples/WarehouseMobileApp) |
 
 
 
