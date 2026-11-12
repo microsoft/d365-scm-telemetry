@@ -1,4 +1,6 @@
-## Warehoouse Mobile App
+## Warehouse Mobile App
+
+For a full, example-driven guide to the Warehouse Mobile App telemetry, see the [Warehouse Mobile App telemetry guide](../../WarehouseMobileApp).
 
 Having a superior Wi-Fi network results in shipping on time. You can use the WMA telemetry to monitor and improve the Wi-Fi coverage in your warehouse.
 
